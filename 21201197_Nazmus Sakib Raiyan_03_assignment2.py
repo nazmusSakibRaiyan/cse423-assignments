@@ -5,8 +5,6 @@ from OpenGL.GLUT import *
 import random
 import time
 
-#hello
-
 def getzone(x_start, y_start, x_end, y_end): #initial zone
     delta_x = x_end - x_start 
     delta_y = y_end - y_start
@@ -20,7 +18,6 @@ def getzone(x_start, y_start, x_end, y_end): #initial zone
             return 3 if abs(delta_x) > abs(delta_y) else 2
         else: # Zone 4 or 5
             return 4 if abs(delta_x) > abs(delta_y) else 5
-
 
 def convert_to_zone0(x_coord, y_coord, original_zone): 
     if original_zone == 0:
@@ -40,7 +37,6 @@ def convert_to_zone0(x_coord, y_coord, original_zone):
     elif original_zone == 7:
         return (x_coord, -y_coord)
 
-
 def convert_to_original_zone(x_coord, y_coord, original_zone): 
     if original_zone == 0:
         return (x_coord, y_coord)
@@ -59,13 +55,11 @@ def convert_to_original_zone(x_coord, y_coord, original_zone):
     elif original_zone == 7:
         return (x_coord, -y_coord)
 
-
 def drawpixel(x, y, original_zone): 
     glPointSize(1)
     glBegin(GL_POINTS)
     glVertex2f(x, y)
     glEnd()
-
 
 def MidpointLine(x_start, y_start, x_end, y_end, color): #Midpoint Line Drawing Algorithm
     zone = getzone(x_start, y_start, x_end, y_end)
@@ -76,7 +70,7 @@ def MidpointLine(x_start, y_start, x_end, y_end, color): #Midpoint Line Drawing 
     delta_x = x_end - x_start
     delta_y = y_end - y_start
     decision_param = 2 * delta_y - delta_x #initial decision parameter
-    incrE = 2 * delta_y # decision parameter for E direction
+    incrE = 2 * delta_y #
     incrNE = 2 * (delta_y - delta_x) # decision parameter for NE direction
 
     current_x = x_start
@@ -132,7 +126,7 @@ WINDOW_Y = 1200
 
 class Circle: 
     def __init__(self, x, num): 
-        self.circle_color = (random.uniform(0.5, 1), random.uniform(0.5, 1), random.uniform(0.5, 1)) #random color for each circle
+        self.circle_color = (random.uniform(0.5, 1), random.uniform(0.5, 1), random.uniform(0.5, 1)) 
         self.x = x
         self.y = WINDOW_Y
         self.num = num 
@@ -140,7 +134,7 @@ class Circle:
     def draw(self):
         color = self.circle_color
 
-        MidpointCircle(20, self.x, self.y - 20, color) #circle radius 20. center at (x, y-20), falling
+        MidpointCircle(20, self.x, self.y - 20, color) 
 
 
 class Bullet:
@@ -258,7 +252,7 @@ def reset_game_state():
     game_over = False
     score = 0
     count = 0
-    circle_1 = 1 
+    circle_1 = 1
     circle_2 = 3
 
 
@@ -290,9 +284,9 @@ def draw_left_arrow():
 def draw_pause_symbol():
     color = (0.0, 1.0, 0.0)
     MidpointLine(10, 520, 10, 550, color)
-    MidpointLine(15, 520, 15, 550, color)
+    # MidpointLine(15, 520, 15, 550, color)
     MidpointLine(30, 520, 30, 550, color)
-    MidpointLine(35, 520, 35, 550, color)
+    # MidpointLine(35, 520, 35, 550, color)
     
 
 
@@ -374,7 +368,7 @@ def draw_circles():
     global circles, game_over
     if not game_over:
         for circle in circles:
-            circle.draw()
+            circle.draw() 
 
 
 def display():
@@ -396,14 +390,14 @@ def create_circles(n):
         circles.append(circle)
 
 
-create_circles(no_of_circle)
+create_circles(no_of_circle) 
 
 
 def check_bullet_hits():
     global score, circle_1, circle_2, no_of_circle
     for bullet in spaceship.bullet_fired:
         for circle in circles:
-            if bullet.x > circle.x - 40 and bullet.x < circle.x + 40 and bullet.y > circle.y - 60 and bullet.y < circle.y: #collision detection
+            if bullet.x > circle.x - 40 and bullet.x < circle.x + 40 and bullet.y > circle.y - 60 and bullet.y < circle.y: #collision detection from center
                 print('Hit!!')
                 score += 1
                 print("Score:", score)
@@ -452,7 +446,7 @@ def animate(value):
     elif game_over:
         glutIdleFunc(None)
 
-    glutTimerFunc(30, animate, 0) #30ms delay, 30fps
+    glutTimerFunc(30, animate, 0)
     glutPostRedisplay()
 
 
@@ -484,16 +478,13 @@ def mouseClick(button, state, x, y):
     global game_over, game_paused, click
 
     if button == GLUT_LEFT_BUTTON and state == GLUT_DOWN: 
-
         glutPostRedisplay()
 
         if 10 <= x <= 35 and 10 <= y <= 30:
-
-            print("Starting over!") #
+            print("Starting over!") 
             restartGame()
 
-        # elif 10 <= x <= 35 and 50 <= y <= 80:
-        elif 50 <= x <= 55 and 80 <= y <= 110:
+        elif 10 <= x <= 35 and 50 <= y <= 80:
             Pause()
 
         elif 10 <= x <= 35 and 100 <= y <= 125:
@@ -506,7 +497,7 @@ glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB)
 glutInitWindowSize(WINDOW_X, WINDOW_Y)
 glutCreateWindow(b"Circle Shooter Game")
 glClearColor(0.0, 0.0, 0.0, 0.0)
-gluOrtho2D(0, 800, 0, 600)
+gluOrtho2D(0, 800, 0, 600) #setting up the coordinate system
 glutDisplayFunc(display)
 glutKeyboardFunc(keyboard)
 glutMouseFunc(mouseClick)
